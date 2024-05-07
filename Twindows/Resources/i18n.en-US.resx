@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="disableCopilot" xml:space="preserve">
+    <value>Disable Copilot</value>
+  </data>
+  <data name="disableFileExplorer" xml:space="preserve">
+    <value>Disable File Explorer Ads</value>
+  </data>
+  <data name="disableFinishSetup" xml:space="preserve">
+    <value>Disable "Finish Setup" Ads</value>
+  </data>
+  <data name="disableGeneral" xml:space="preserve">
+    <value>Disable General Tips and Ads</value>
+  </data>
+  <data name="disableLockScreen" xml:space="preserve">
+    <value>Disable Lock Screen Tips and Ads</value>
+  </data>
+  <data name="disablePersonalized" xml:space="preserve">
+    <value>Disable Personalized Ads</value>
+  </data>
+  <data name="disableSettings" xml:space="preserve">
+    <value>Disable Settings Ads</value>
+  </data>
+  <data name="disableStartMenu" xml:space="preserve">
+    <value>Disable Start Menu Ads</value>
+  </data>
+  <data name="disableTailoredExperience" xml:space="preserve">
+    <value>Disable "Tailored Experiences"</value>
+  </data>
+  <data name="disableWebSearch" xml:space="preserve">
+    <value>Disable Bing Web Search</value>
+  </data>
+  <data name="disableWelcomeExperience" xml:space="preserve">
+    <value>Disable "Welcome Experience" Ads</value>
+  </data>
+  <data name="restartForChanges" xml:space="preserve">
+    <value>* You May Need to Restart for Changes to Take Effect</value>
+  </data>
+</root>

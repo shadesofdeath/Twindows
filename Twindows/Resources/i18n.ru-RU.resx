@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="disableCopilot" xml:space="preserve">
+    <value>Отключить Copilot</value> 
+  </data>
+  <data name="disableFileExplorer" xml:space="preserve">
+    <value>Отключить рекламу в проводнике</value>
+  </data>
+  <data name="disableFinishSetup" xml:space="preserve">
+    <value>Отключить рекламу «Завершить настройку»</value> 
+  </data>
+  <data name="disableGeneral" xml:space="preserve">
+    <value>Отключить общие советы и рекламу</value> 
+  </data>
+  <data name="disableLockScreen" xml:space="preserve">
+    <value>Отключить подсказки и рекламу на экране блокировки</value>
+  </data>
+  <data name="disablePersonalized" xml:space="preserve">
+    <value>Отключить персонализированную рекламу</value> 
+  </data>
+  <data name="disableSettings" xml:space="preserve">
+    <value>Отключить рекламу в настройках</value>
+  </data>
+  <data name="disableStartMenu" xml:space="preserve">
+    <value>Отключить рекламу в меню «Пуск»</value> 
+  </data>
+  <data name="disableTailoredExperience" xml:space="preserve">
+    <value>Отключить «Специальные возможности»</value>
+  </data>
+  <data name="disableWebSearch" xml:space="preserve">
+    <value>Отключить веб-поиск Bing</value> 
+  </data>
+  <data name="disableWelcomeExperience" xml:space="preserve">
+    <value>Отключить рекламу «Приветствие»</value>
+  </data>
+  <data name="restartForChanges" xml:space="preserve">
+    <value>* Для применения изменений может потребоваться перезагрузка</value>
+  </data>
+</root>

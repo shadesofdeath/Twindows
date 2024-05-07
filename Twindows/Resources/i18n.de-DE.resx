@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="disableCopilot" xml:space="preserve">
+    <value>Copilot deaktivieren</value>
+  </data>
+  <data name="disableFileExplorer" xml:space="preserve">
+    <value>Datei-Explorer-Anzeigen deaktivieren</value>
+  </data>
+  <data name="disableFinishSetup" xml:space="preserve">
+    <value>„Setup abschließen“-Anzeigen deaktivieren</value>
+  </data>
+  <data name="disableGeneral" xml:space="preserve">
+    <value>Allgemeine Tipps und Anzeigen deaktivieren</value>
+  </data>
+  <data name="disableLockScreen" xml:space="preserve">
+    <value>Tipps und Anzeigen auf dem Sperrbildschirm deaktivieren</value>
+  </data>
+  <data name="disablePersonalized" xml:space="preserve">
+    <value>Personalisierte Anzeigen deaktivieren</value>
+  </data>
+  <data name="disableSettings" xml:space="preserve">
+    <value>Einstellungen-Anzeigen deaktivieren</value>
+  </data>
+  <data name="disableStartMenu" xml:space="preserve">
+    <value>Startmenü-Anzeigen deaktivieren</value>
+  </data>
+  <data name="disableTailoredExperience" xml:space="preserve">
+    <value>„Maßgeschneiderte Erfahrungen“ deaktivieren</value>
+  </data>
+  <data name="disableWebSearch" xml:space="preserve">
+    <value>Bing-Websuche deaktivieren</value>
+  </data>
+  <data name="disableWelcomeExperience" xml:space="preserve">
+    <value>„Willkommen“-Erfahrungs-Anzeigen deaktivieren</value>
+  </data>
+  <data name="restartForChanges" xml:space="preserve">
+    <value>* Möglicherweise müssen Sie einen Neustart durchführen, damit die Änderungen wirksam werden</value> 
+  </data>
+</root>

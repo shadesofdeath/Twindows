@@ -61,6 +61,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="I18n.cs" />
+    <Compile Include="RegHelper.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -96,6 +98,17 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\i18n.de-DE.resx" />
+    <EmbeddedResource Include="Resources\i18n.en-US.resx" />
+    <EmbeddedResource Include="Resources\i18n.es-ES.resx" />
+    <EmbeddedResource Include="Resources\i18n.fr-FR.resx" />
+    <EmbeddedResource Include="Resources\i18n.it-IT.resx" />
+    <EmbeddedResource Include="Resources\i18n.ja-JP.resx" />
+    <EmbeddedResource Include="Resources\i18n.ko-KR.resx" />
+    <EmbeddedResource Include="Resources\i18n.pt-PT.resx" />
+    <EmbeddedResource Include="Resources\i18n.ru-RU.resx" />
+    <EmbeddedResource Include="Resources\i18n.tr-TR.resx" />
+    <EmbeddedResource Include="Resources\i18n.zh-CN.resx" />
     <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -108,5 +121,6 @@
   <ItemGroup>
     <Resource Include="icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -80,10 +80,10 @@
     <SolidColorBrush x:Key="OptionMark.Static.Border" Color="#8f8f8f" />
     <SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="White" />
     <SolidColorBrush x:Key="OptionMark.MouseOver.Background" Color="Transparent" />
-    <SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="#4a9d9c" />
+    <SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="#ff867f" />
     <SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="White" />
     <SolidColorBrush x:Key="OptionMark.Pressed.Background" Color="Transparent" />
-    <SolidColorBrush x:Key="OptionMark.Pressed.Border" Color="#0D6E6E" />
+    <SolidColorBrush x:Key="OptionMark.Pressed.Border" Color="#ff867f" />
     <SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="#dedede" />
     <SolidColorBrush x:Key="OptionMark.Disabled.Background" Color="#FFE6E6E6" />
     <SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="#FFBCBCBC" />
@@ -126,7 +126,7 @@
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                             Margin="{TemplateBinding Padding}" RecognizesAccessKey="True"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="true">

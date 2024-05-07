@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="disableCopilot" xml:space="preserve">
+    <value>Désactiver Copilot</value>
+  </data>
+  <data name="disableFileExplorer" xml:space="preserve">
+    <value>Désactiver les publicités de l'Explorateur de fichiers</value>
+  </data>
+  <data name="disableFinishSetup" xml:space="preserve">
+    <value>Désactiver les publicités « Terminer la configuration »</value>
+  </data>
+  <data name="disableGeneral" xml:space="preserve">
+    <value>Désactiver les conseils et publicités générales</value>
+  </data>
+  <data name="disableLockScreen" xml:space="preserve">
+    <value>Désactiver les conseils et publicités de l'écran de verrouillage</value>
+  </data>
+  <data name="disablePersonalized" xml:space="preserve">
+    <value>Désactiver les publicités personnalisées</value>
+  </data>
+  <data name="disableSettings" xml:space="preserve">
+    <value>Désactiver les publicités des paramètres</value>
+  </data>
+  <data name="disableStartMenu" xml:space="preserve">
+    <value>Désactiver les publicités du menu Démarrer</value>
+  </data>
+  <data name="disableTailoredExperience" xml:space="preserve">
+    <value>Désactiver les « Expériences personnalisées »</value>
+  </data>
+  <data name="disableWebSearch" xml:space="preserve">
+    <value>Désactiver la recherche Web Bing</value>
+  </data>
+  <data name="disableWelcomeExperience" xml:space="preserve">
+    <value>Désactiver les publicités « Expérience de bienvenue »</value>
+  </data>
+  <data name="restartForChanges" xml:space="preserve">
+    <value>* Un redémarrage peut être nécessaire pour que les modifications prennent effet</value>
+  </data>
+</root>

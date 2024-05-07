@@ -1,13 +1,15 @@
 ﻿using Microsoft.Win32;
+using SophiApp.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-
 namespace Twindows
 {
     /// <summary>
@@ -15,7 +17,6 @@ namespace Twindows
     /// </summary>
     public partial class MainWindow : Window
     {
-        const string cur_ver = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\";
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
         [DllImport("dwmapi.dll")]
@@ -43,6 +44,33 @@ namespace Twindows
             InitializeComponent();
             InitializeKeys();
             EnableBlur();
+            HashSet<string> supportedLanguages = new HashSet<string>()
+            {
+                "de-DE", // (Deutsch)
+                "en-US", // (English)
+                "es-ES", // (Español)
+                "fr-FR", // (Français)
+                "it-IT", // (Italiano)
+                "ja-JP", // (日本語)
+                "ko-KR", // (한국어)
+                "pt-PT", // (Português)
+                "ru-RU", // (Русский)
+                "tr-TR", // (Türkçe)
+                "zh-CN"  // (简体中文)
+            };
+
+            // Windows'un mevcut dilini al
+            CultureInfo currentCulture = CultureInfo.CurrentCulture;
+
+            // Eğer dil destekleniyorsa, o dili kullan
+            if (supportedLanguages.Contains(currentCulture.Name))
+            {
+                I18n.Instance.ApplyLanguage(currentCulture);
+            }
+            else
+            {
+                I18n.Instance.ApplyLanguage(new CultureInfo("en-US"));
+            }
         }
 
         internal void EnableBlur()
@@ -73,152 +101,248 @@ namespace Twindows
             Marshal.FreeHGlobal(accentPtr);
         }
 
+
+        private void InitializeKeys()
+        {
+            Dictionary<CheckBox, List<Tuple<RegistryHive, string, string, int>>> checks = new Dictionary<CheckBox, List<Tuple<RegistryHive, string, string, int>>>()
+            {
+                { FileExplorerAds, new List<Tuple<RegistryHive, string, string, int>>()
+                    {
+                        Tuple.Create(RegistryHive.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSyncProviderNotifications", 0)
+                    }
+                },
+                { LockscreenAds, new List<Tuple<RegistryHive, string, string, int>>()
+                    {
+                        Tuple.Create(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "RotatingLockScreenOverlayEnabled", 0),
+                        Tuple.Create(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-338387Enabled", 0)
+                    }
+                },
+                { SettingsAds, new List<Tuple<RegistryHive, string, string, int>>()
+                    {
+                        Tuple.Create(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-338393Enabled", 0),
+                        Tuple.Create(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-353694Enabled", 0),
+                        Tuple.Create(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-353696Enabled", 0)
+                    }
+                },
+                { GeneralTips, new List<Tuple<RegistryHive, string, string, int>>()
+                    {
+                        Tuple.Create(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-338389Enabled", 0)
+                    }
+                },
+                { FinishSetupAds, new List<Tuple<RegistryHive, string, string, int>>()
+                    {
+                        Tuple.Create(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement", "ScoobeSystemSettingEnabled", 0)
+                    }
+                },
+                { WelcomeExperienceAds, new List<Tuple<RegistryHive, string, string, int>>()
+                    {
+                        Tuple.Create(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-310093Enabled", 0)
+                    }
+                },
+                { PersonalizedAds, new List<Tuple<RegistryHive, string, string, int>>()
+                    {
+                        Tuple.Create(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo", "Enabled", 0)
+                    }
+                },
+                { TailoredExperiences, new List<Tuple<RegistryHive, string, string, int>>()
+                    {
+                        Tuple.Create(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\Privacy", "TailoredExperiencesWithDiagnosticDataEnabled", 0)
+                    }
+                },
+                { StartMenuAds, new List<Tuple<RegistryHive, string, string, int>>()
+                    {
+                        Tuple.Create(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "Start_IrisRecommendations", 0)
+                    }
+                },
+                { WebSearch, new List<Tuple<RegistryHive, string, string, int>>()
+                    {
+                        Tuple.Create(RegistryHive.CurrentUser, @"Software\Policies\Microsoft\Windows\Explorer", "DisableSearchBoxSuggestions", 1),
+                        Tuple.Create(RegistryHive.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Search", "BingSearchEnabled", 0)
+                    }
+                },
+                { Copilot, new List<Tuple<RegistryHive, string, string, int>>()
+                    {
+                        Tuple.Create(RegistryHive.CurrentUser, @"Software\Policies\Microsoft\Windows\WindowsCopilot", "TurnOffWindowsCopilot", 1),
+                        Tuple.Create(RegistryHive.LocalMachine, @"SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot", "TurnOffWindowsCopilot", 1),
+                        Tuple.Create(RegistryHive.LocalMachine, @"SOFTWARE\Policies\Microsoft\Edge", "HubsSidebarEnabled", 0),
+                        Tuple.Create(RegistryHive.CurrentUser, @"Software\Policies\Microsoft\Windows\Explorer", "DisableSearchBoxSuggestions", 1),
+                        Tuple.Create(RegistryHive.LocalMachine, @"SOFTWARE\Policies\Microsoft\Windows\Explorer", "DisableSearchBoxSuggestions", 1)
+
+                    }
+                }
+            };
+
+            foreach (var item in checks)
+            {
+                bool isChecked = true;
+                foreach (var check in item.Value)
+                {
+                    int? regValue = RegHelper.GetNullableIntValue(check.Item1, check.Item2, check.Item3);
+                    if (!regValue.HasValue || regValue != check.Item4)
+                    {
+                        isChecked = false;
+                        break;
+                    }
+                }
+                item.Key.IsChecked = isChecked;
+            }
+        }
+
+        // Disable Copilot
+        private void Copilot_Checked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Policies\Microsoft\Windows\WindowsCopilot", "TurnOffWindowsCopilot", 1, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.LocalMachine, @"SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot", "TurnOffWindowsCopilot", 1, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.LocalMachine, @"SOFTWARE\Policies\Microsoft\Edge", "HubsSidebarEnabled", 0, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Policies\Microsoft\Windows\Explorer", "DisableSearchBoxSuggestions", 1, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.LocalMachine, @"SOFTWARE\Policies\Microsoft\Windows\Explorer", "DisableSearchBoxSuggestions", 1, RegistryValueKind.DWord);
+        }
+
+        private void Copilot_Unchecked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Policies\Microsoft\Windows\WindowsCopilot", "TurnOffWindowsCopilot", 0, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.LocalMachine, @"SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot", "TurnOffWindowsCopilot", 0, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.LocalMachine, @"SOFTWARE\Policies\Microsoft\Edge", "HubsSidebarEnabled", 1, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Policies\Microsoft\Windows\Explorer", "DisableSearchBoxSuggestions", 0, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.LocalMachine, @"SOFTWARE\Policies\Microsoft\Windows\Explorer", "DisableSearchBoxSuggestions", 0, RegistryValueKind.DWord);
+        }
+
+        // Disable Web Search
+        private void WebSearch_Checked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Policies\Microsoft\Windows\Explorer", "DisableSearchBoxSuggestions", 1, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Search", "BingSearchEnabled", 0, RegistryValueKind.DWord);
+
+        }
+
+        private void WebSearch_Unchecked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Policies\Microsoft\Windows\Explorer", "DisableSearchBoxSuggestions", 0, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Search", "BingSearchEnabled", 1, RegistryValueKind.DWord);
+        }
+
+        // Turn off “Show suggestions for tips, shortcuts, new apps and more” in Start
+        private void StartMenuAds_Checked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "Start_IrisRecommendations", 0, RegistryValueKind.DWord);
+        }
+
+        private void StartMenuAds_Unchecked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "Start_IrisRecommendations", 1, RegistryValueKind.DWord);
+        }
+
+        // Disable Tailored Experiences
+        private void TailoredExperiences_Checked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\Privacy", "TailoredExperiencesWithDiagnosticDataEnabled", 0, RegistryValueKind.DWord);
+        }
+
+        private void TailoredExperiences_Unchecked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\Privacy", "TailoredExperiencesWithDiagnosticDataEnabled", 1, RegistryValueKind.DWord);
+        }
+
+        // Disable Advertising ID for Personalized Ads
+        private void PersonalizedAds_Checked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo", "Enabled", 0, RegistryValueKind.DWord);
+        }
+
+        private void PersonalizedAds_Unchecked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo", "Enabled", 1, RegistryValueKind.DWord);
+        }
+
+        // Disable Welcome Experience Ads
+        private void WelcomeExperienceAds_Checked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-310093Enabled", 0, RegistryValueKind.DWord);
+        }
+
+        private void WelcomeExperienceAds_Unchecked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-310093Enabled", 1, RegistryValueKind.DWord);
+        }
+
+        // Disable Finish Setup Ads
+        private void FinishSetupAds_Checked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement", "ScoobeSystemSettingEnabled", 0, RegistryValueKind.DWord);
+        }
+
+        private void FinishSetupAds_Unchecked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement", "ScoobeSystemSettingEnabled", 1, RegistryValueKind.DWord);
+        }
+
+        // Disable General Tips And Ads
+        private void GeneralTips_Checked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-338389Enabled", 0, RegistryValueKind.DWord);
+        }
+
+        private void GeneralTips_Unchecked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-338389Enabled", 1, RegistryValueKind.DWord);
+        }
+
+        // Disable Settings Ads
+        private void SettingsAds_Checked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-338393Enabled", 0, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-353694Enabled", 0, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-353696Enabled", 0, RegistryValueKind.DWord);
+        }
+
+        private void SettingsAds_Unchecked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-338393Enabled", 1, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-353694Enabled", 1, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-353696Enabled", 1, RegistryValueKind.DWord);
+        }
+
+        // Disable Lock Screen Tips And Ads
+        private void LockscreenAds_Checked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "RotatingLockScreenOverlayEnabled", 0, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-338387Enabled", 0, RegistryValueKind.DWord);
+        }
+
+        private void LockscreenAds_Unchecked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "RotatingLockScreenOverlayEnabled", 1, RegistryValueKind.DWord);
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager", "SubscribedContent-338387Enabled", 1, RegistryValueKind.DWord);
+        }
+
+        // Disable File Explorer Ads
+        private void FileExplorerAds_Checked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSyncProviderNotifications", 0, RegistryValueKind.DWord);
+        }
+
+        private void FileExplorerAds_Unchecked(object sender, RoutedEventArgs e)
+        {
+            RegHelper.SetValue(RegistryHive.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSyncProviderNotifications", 1, RegistryValueKind.DWord);
+        }
+
+
         private void Close(object sender, RoutedEventArgs e)
         {
             try
             {
                 Close();
             }
-            catch { } 
+            catch { }
         }
 
-        private void Github(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Github(object sender, MouseButtonEventArgs e)
         {
             try
             {
                 Process.Start("https://github.com/shadesofdeath");
             }
-            catch { }       
-        }
-        private void InitializeKeys()
-        {
-            // https://www.elevenforum.com/t/disable-ads-in-windows-11.8004/
-            // Sync provider notifications in File Explorer
-            bool key1 = CreateKey(cur_ver + "Explorer\\Advanced", "ShowSyncProviderNotifications");
-            cb1.IsChecked = !key1;
-
-            // Get fun facts, tips, tricks, and more on your lock screen
-            bool key2 = CreateKey(cur_ver + "ContentDeliveryManager", "RotatingLockScreenOverlayEnabled");
-            bool key3 = CreateKey(cur_ver + "ContentDeliveryManager", "SubscribedContent-338387Enabled");
-            cb2.IsChecked = !key2 && !key3;
-
-            // Show suggested content in Settings app
-            bool key4 = CreateKey(cur_ver + "ContentDeliveryManager", "SubscribedContent-338393Enabled");
-            bool key5 = CreateKey(cur_ver + "ContentDeliveryManager", "SubscribedContent-353694Enabled");
-            bool key6 = CreateKey(cur_ver + "ContentDeliveryManager", "SubscribedContent-353696Enabled");
-            cb3.IsChecked = !key4 && !key5 && !key6;
-
-            // Get tips and suggestions when using Windows
-            bool key7 = CreateKey(cur_ver + "ContentDeliveryManager", "SubscribedContent-338389Enabled");
-            cb4.IsChecked = !key7;
-
-            // Suggest ways to get the most out of Windows and finish setting up this device
-            bool key8 = CreateKey(cur_ver + "UserProfileEngagement", "ScoobeSystemSettingEnabled");
-            cb5.IsChecked = !key8;
-
-            // Show me the Windows welcome experience after updates and occasionally when I sign in to highlight what's new and suggested
-            bool key9 = CreateKey(cur_ver + "ContentDeliveryManager", "SubscribedContent-310093Enabled");
-            cb6.IsChecked = !key9;
-
-            // Let apps show me personalized ads by using my advertising ID
-            bool key10 = CreateKey(cur_ver + "AdvertisingInfo", "Enabled");
-            cb7.IsChecked = !key10;
-
-            // Tailored experiences
-            bool key11 = CreateKey(cur_ver + "Privacy", "TailoredExperiencesWithDiagnosticDataEnabled");
-            cb8.IsChecked = !key11;
-
-            // "Show recommendations for tips, shortcuts, new apps, and more" on Start
-            bool key12 = CreateKey(cur_ver + "Explorer\\Advanced", "Start_IrisRecommendations");
-            cb9.IsChecked = !key12;
-        }
-
-        private static bool CreateKey(string loc, string key)
-        {
-            RegistryKey keyRef = Registry.CurrentUser.OpenSubKey(loc, true);
-            if (keyRef != null)
-            {
-                if (keyRef.GetValue(key) == null)
-                {
-                    keyRef.SetValue(key, 0);
-                    keyRef.Close();
-                    return false;
-                }
-                else
-                {
-                    return (Convert.ToInt32(keyRef.GetValue(key)) != 0);
-                }
-            }
-            else
-            {
-                keyRef = Registry.CurrentUser.CreateSubKey(loc);
-                if (keyRef != null)
-                {
-                    keyRef.SetValue(key, 0);
-                    keyRef.Close();
-                    return false;
-                }
-                else
-                {
-                    MessageBox.Show("Null KeyRef Used", "Fatal Error 2", MessageBoxButton.OK, MessageBoxImage.Error);
-                    throw new InvalidOperationException("Null KeyRef Used While Creating Key");
-                }
-            }
-        }
-
-        private static bool ToggleOptions(string name, bool enable)
-        {
-            int value = Convert.ToInt32(!enable);
-
-            switch (name)
-            {
-                case "cb1":
-                    Registry.SetValue("HKEY_CURRENT_USER\\" + cur_ver + "Explorer\\Advanced\\", "ShowSyncProviderNotifications", value);
-                    break;
-                case "cb2":
-                    Registry.SetValue("HKEY_CURRENT_USER\\" + cur_ver + "ContentDeliveryManager", "RotatingLockScreenOverlayEnabled", value);
-                    Registry.SetValue("HKEY_CURRENT_USER\\" + cur_ver + "ContentDeliveryManager", "SubscribedContent-338387Enabled", value);
-                    break;
-                case "cb3":
-                    Registry.SetValue("HKEY_CURRENT_USER\\" + cur_ver + "ContentDeliveryManager", "SubscribedContent-338393Enabled", value);
-                    Registry.SetValue("HKEY_CURRENT_USER\\" + cur_ver + "ContentDeliveryManager", "SubscribedContent-353694Enabled", value);
-                    Registry.SetValue("HKEY_CURRENT_USER\\" + cur_ver + "ContentDeliveryManager", "SubscribedContent-353696Enabled", value);
-                    break;
-                case "cb4":
-                    Registry.SetValue("HKEY_CURRENT_USER\\" + cur_ver + "ContentDeliveryManager", "SubscribedContent-338389Enabled", value);
-                    break;
-                case "cb5":
-                    Registry.SetValue("HKEY_CURRENT_USER\\" + cur_ver + "UserProfileEngagement", "ScoobeSystemSettingEnabled", value);
-                    break;
-                case "cb6":
-                    Registry.SetValue("HKEY_CURRENT_USER\\" + cur_ver + "ContentDeliveryManager", "SubscribedContent-310093Enabled", value);
-                    break;
-                case "cb7":
-                    Registry.SetValue("HKEY_CURRENT_USER\\" + cur_ver + "AdvertisingInfo", "Enabled", value);
-                    break;
-                case "cb8":
-                    Registry.SetValue("HKEY_CURRENT_USER\\" + cur_ver + "Privacy", "TailoredExperiencesWithDiagnosticDataEnabled", value);
-                    break;
-                case "cb9":
-                    Registry.SetValue("HKEY_CURRENT_USER\\" + cur_ver + "Explorer\\Advanced", "Start_IrisRecommendations", value);
-                    break;
-            }
-            return true;
-        }
-
-        private void Checked(object sender, RoutedEventArgs e)
-        {
-            ToggleOptions(((CheckBox)sender).Name, true);
-        }
-
-        private void Unchecked(object sender, RoutedEventArgs e)
-        {
-            ToggleOptions(((CheckBox)sender).Name, false);
-        }
-
-        private void Closing_Window(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            MessageBox.Show("You May Need To Restart For Changes To Apply", "Twindows", MessageBoxButton.OK, MessageBoxImage.Information);
+            catch { }
         }
 
         private void TextBlock_MouseEnter(object sender, MouseEventArgs e)

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="disableCopilot" xml:space="preserve">
+    <value>코파일럿 비활성화</value>
+  </data>
+  <data name="disableFileExplorer" xml:space="preserve">
+    <value>파일 탐색기 광고 비활성화</value>
+  </data>
+  <data name="disableFinishSetup" xml:space="preserve">
+    <value>“설정 완료” 광고 비활성화</value>
+  </data>
+  <data name="disableGeneral" xml:space="preserve">
+    <value>일반 팁 및 광고 비활성화</value>
+  </data>
+  <data name="disableLockScreen" xml:space="preserve">
+    <value>잠금 화면 팁 및 광고 비활성화</value>
+  </data>
+  <data name="disablePersonalized" xml:space="preserve">
+    <value>개인 설정된 광고 비활성화</value>
+  </data>
+  <data name="disableSettings" xml:space="preserve">
+    <value>설정 광고 비활성화</value>
+  </data>
+  <data name="disableStartMenu" xml:space="preserve">
+    <value>시작 메뉴 광고 비활성화</value>
+  </data>
+  <data name="disableTailoredExperience" xml:space="preserve">
+    <value>“맞춤형 환경” 비활성화</value>
+  </data>
+  <data name="disableWebSearch" xml:space="preserve">
+    <value>Bing 웹 검색 비활성화</value>
+  </data>
+  <data name="disableWelcomeExperience" xml:space="preserve">
+    <value>“시작 환경” 광고 비활성화</value>
+  </data>
+  <data name="restartForChanges" xml:space="preserve">
+    <value>* 변경 사항을 적용하려면 다시 시작해야 할 수 있습니다.</value>
+  </data>
+</root>

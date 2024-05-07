@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="disableCopilot" xml:space="preserve">
+    <value>禁用副驾驶</value>
+  </data>
+  <data name="disableFileExplorer" xml:space="preserve">
+    <value>禁用文件资源管理器广告</value>
+  </data>
+  <data name="disableFinishSetup" xml:space="preserve">
+    <value>禁用“完成设置”广告</value>
+  </data>
+  <data name="disableGeneral" xml:space="preserve">
+    <value>禁用常规提示和广告</value>
+  </data>
+  <data name="disableLockScreen" xml:space="preserve">
+    <value>禁用锁屏提示和广告</value>
+  </data>
+  <data name="disablePersonalized" xml:space="preserve">
+    <value>禁用个性化广告</value>
+  </data>
+  <data name="disableSettings" xml:space="preserve">
+    <value>禁用设置广告</value>
+  </data>
+  <data name="disableStartMenu" xml:space="preserve">
+    <value>禁用“开始”菜单广告</value>
+  </data>
+  <data name="disableTailoredExperience" xml:space="preserve">
+    <value>禁用“量身定制的体验”</value>
+  </data>
+  <data name="disableWebSearch" xml:space="preserve">
+    <value>禁用必应 Web 搜索</value>
+  </data>
+  <data name="disableWelcomeExperience" xml:space="preserve">
+    <value>禁用“欢迎体验”广告</value>
+  </data>
+  <data name="restartForChanges" xml:space="preserve">
+    <value>* 您可能需要重新启动才能使更改生效</value>
+  </data>
+</root>
