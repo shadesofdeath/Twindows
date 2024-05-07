@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/shadesofdeath/Twindows/main/Assets/screenshot.png" alt="screenshot of Twindows" />
+  <img src="https://raw.githubusercontent.com/shadesofdeath/Twindows/main/Twindows/Assets/screenshot.png" alt="screenshot of Twindows" />
 </p>
 
 # Twindows
