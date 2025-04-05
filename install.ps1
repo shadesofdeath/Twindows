@@ -4,29 +4,27 @@
 # Created by Berkay AY (shadesofdeath)
 # https://github.com/shadesofdeath/Twindows
 
-Write-Host "
-
-████████╗██╗    ██╗██╗███╗   ██╗██████╗  ██████╗ ██╗    ██╗███████╗
-╚══██╔══╝██║    ██║██║████╗  ██║██╔══██╗██╔═══██╗██║    ██║██╔════╝
-   ██║   ██║ █╗ ██║██║██╔██╗ ██║██║  ██║██║   ██║██║ █╗ ██║███████╗
-   ██║   ██║███╗██║██║██║╚██╗██║██║  ██║██║   ██║██║███╗██║╚════██║
-   ██║   ╚███╔███╔╝██║██║ ╚████║██████╔╝╚██████╔╝╚███╔███╔╝███████║
-   ╚═╝    ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝  ╚══╝╚══╝ ╚══════╝                                                                
-
-" -ForegroundColor Cyan
-
+# Function definitions
 function Test-Admin {
     $currentUser = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
     return $currentUser.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-function Get-Latest-Release {
+function Get-LatestRelease {
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $releases = "https://api.github.com/repos/shadesofdeath/Twindows/releases/latest"
     $tag = (Invoke-WebRequest $releases -UseBasicParsing | ConvertFrom-Json).tag_name
     $download = "https://github.com/shadesofdeath/Twindows/releases/download/$tag/Twindows.zip"
     return $download
 }
+
+# Display banner
+Write-Host "
+---------------------------------------------
+             TWINDOWS INSTALLER             
+   Ultimate Windows 11 Optimization Suite   
+---------------------------------------------
+" -ForegroundColor Cyan
 
 # Check if running as admin
 if (-not (Test-Admin)) {
@@ -56,13 +54,13 @@ switch ($installChoice) {
 }
 
 # Create directory if it doesn't exist
-if (-not (Test-Path $installPath)) {
+if (-not (Test-Path -Path $installPath)) {
     New-Item -ItemType Directory -Path $installPath -Force | Out-Null
 }
 
 # Download the latest release
 Write-Host "Downloading Twindows latest version..." -ForegroundColor Cyan
-$downloadUrl = Get-Latest-Release
+$downloadUrl = Get-LatestRelease
 $zipPath = "$env:TEMP\Twindows.zip"
 
 try {
