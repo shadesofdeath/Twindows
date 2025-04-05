@@ -18,23 +18,6 @@ function Test-Admin {
     return $currentUser.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-function Get-LatestRelease {
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-    try {
-        # Try to get latest release tag from GitHub API
-        $apiUrl = "https://api.github.com/repos/shadesofdeath/Twindows/releases/latest"
-        $releaseInfo = Invoke-WebRequest -Uri $apiUrl -UseBasicParsing | ConvertFrom-Json
-        $tag = $releaseInfo.tag_name
-        Write-Host "Found latest version: $tag" -ForegroundColor Green
-        return "https://github.com/shadesofdeath/Twindows/releases/download/$tag/Twindows.exe"
-    }
-    catch {
-        # If API fails, try direct download link
-        Write-Host "Could not determine latest version, using direct download link" -ForegroundColor Yellow
-        return "https://github.com/shadesofdeath/Twindows/releases/latest/download/Twindows.exe"
-    }
-}
-
 # Check if running as admin and elevate if needed
 if (-not (Test-Admin)) {
     Write-Host "Twindows requires administrator privileges." -ForegroundColor Yellow
@@ -57,38 +40,96 @@ if (-not (Test-Admin)) {
 # Create a random temporary directory for maximum portability
 $randomId = [System.Guid]::NewGuid().ToString().Substring(0, 8)
 $installPath = "$env:TEMP\Twindows_$randomId"
+$exePath = "$installPath\Twindows.exe"
 
 # Create directory
 New-Item -ItemType Directory -Path $installPath -Force | Out-Null
 
-# Download the latest release
+# Download the executable using GitHub API
 Write-Host "Downloading Twindows latest version..." -ForegroundColor Cyan
-$downloadUrl = Get-LatestRelease
-$exePath = "$installPath\Twindows.exe"
+
+# Define the GitHub API URL
+$apiUrl = "https://api.github.com/repos/shadesofdeath/Twindows/releases/latest"
 
 try {
-    Write-Host "Downloading from: $downloadUrl" -ForegroundColor DarkGray
-    Invoke-WebRequest -Uri $downloadUrl -OutFile $exePath -UseBasicParsing
+    # Set TLS 1.2 for HTTPS connections
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     
-    # Check if file was actually downloaded
+    # Get latest release info with proper headers
+    $releaseInfo = Invoke-RestMethod -Uri $apiUrl -Headers @{
+        "Accept"     = "application/vnd.github.v3+json"
+        "User-Agent" = "Twindows-PowerShell-Launcher"
+    }
+    
+    # Get the tag name
+    $tagName = $releaseInfo.tag_name
+    Write-Host "Found latest version: $tagName" -ForegroundColor Green
+    
+    # Get the download URL for the executable
+    $assets = $releaseInfo.assets
+    if ($assets -and $assets.Count -gt 0) {
+        # Look for Twindows.exe in assets
+        $exeAsset = $assets | Where-Object { $_.name -eq "Twindows.exe" }
+        if ($exeAsset) {
+            $downloadUrl = $exeAsset.browser_download_url
+        } else {
+            # If not found, try the first asset
+            $downloadUrl = $assets[0].browser_download_url
+        }
+    } else {
+        # Fallback to a constructed URL
+        $downloadUrl = "https://github.com/shadesofdeath/Twindows/releases/download/$tagName/Twindows.exe"
+    }
+    
+    Write-Host "Downloading from: $downloadUrl" -ForegroundColor DarkGray
+    
+    # Download the file with proper headers
+    Invoke-WebRequest -Uri $downloadUrl -OutFile $exePath -Headers @{
+        "User-Agent" = "Twindows-PowerShell-Launcher"
+    } -UseBasicParsing
+    
+    # Verify the download
     if (-not (Test-Path -Path $exePath) -or (Get-Item -Path $exePath).Length -eq 0) {
         throw "Downloaded file is empty or doesn't exist"
     }
+    
+    Write-Host "Download successful!" -ForegroundColor Green
 }
 catch {
-    Write-Host "Failed to download Twindows. Please check your internet connection and try again." -ForegroundColor Red
-    Write-Host "Error: $_" -ForegroundColor Red
-    Write-Host "URL: $downloadUrl" -ForegroundColor Red
+    Write-Host "GitHub API or download failed: $_" -ForegroundColor Red
     
-    # Try fallback direct download
-    try {
-        $fallbackUrl = "https://github.com/shadesofdeath/Twindows/releases/download/v1.0.0.0/Twindows.exe"
-        Write-Host "Trying fallback URL: $fallbackUrl" -ForegroundColor Yellow
-        Invoke-WebRequest -Uri $fallbackUrl -OutFile $exePath -UseBasicParsing
+    # Try fallback download URLs
+    Write-Host "Trying fallback download methods..." -ForegroundColor Yellow
+    
+    $fallbackUrls = @(
+        "https://github.com/shadesofdeath/Twindows/releases/latest/download/Twindows.exe",
+        "https://github.com/shadesofdeath/Twindows/releases/download/v1.0.0.0/Twindows.exe"
+    )
+    
+    $downloadSuccess = $false
+    
+    foreach ($url in $fallbackUrls) {
+        try {
+            Write-Host "Trying: $url" -ForegroundColor DarkGray
+            Invoke-WebRequest -Uri $url -OutFile $exePath -UseBasicParsing -TimeoutSec 30
+            
+            if ((Test-Path -Path $exePath) -and (Get-Item -Path $exePath).Length -gt 0) {
+                $downloadSuccess = $true
+                Write-Host "Fallback download successful!" -ForegroundColor Green
+                break
+            }
+        } catch {
+            Write-Host "Fallback attempt failed: $_" -ForegroundColor Red
+            continue
+        }
     }
-    catch {
-        Write-Host "Fallback download also failed." -ForegroundColor Red
+    
+    if (-not $downloadSuccess) {
+        Write-Host "All download attempts failed." -ForegroundColor Red
+        Write-Host "Please download Twindows manually from: https://github.com/shadesofdeath/Twindows/releases" -ForegroundColor Yellow
         pause
+        # Clean up temp directory
+        Remove-Item -Path $installPath -Recurse -Force -ErrorAction SilentlyContinue
         exit
     }
 }
@@ -96,11 +137,6 @@ catch {
 # Run the application
 Write-Host "Launching Twindows..." -ForegroundColor Cyan
 try {
-    # Check if file exists and is valid
-    if (-not (Test-Path -Path $exePath) -or (Get-Item -Path $exePath).Length -eq 0) {
-        throw "Executable file not found or empty"
-    }
-    
     # Start process and get the process ID
     $process = Start-Process -FilePath $exePath -PassThru
     
