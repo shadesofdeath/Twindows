@@ -58,7 +58,7 @@ Identify and remove unnecessary pre-installed applications that slow down your s
 - **Real-time Monitoring**: Track performance improvements as you apply optimizations
 
 <div align="center">
-  <img src="https://github.com/shadesofdeath/Twindows/raw/main/assets/screenshot1.png" alt="Twindows Screenshot" width="800">
+  <img src="https://github.com/shadesofdeath/Twindows/raw/main/assets/screenshot.png" alt="Twindows Screenshot" width="800">
 </div>
 
 ## 💡 Why Twindows?
