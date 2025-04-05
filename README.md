@@ -1,28 +1,30 @@
 # <div align="center">🚀 TWINDOWS 🚀</div>
 
 <div align="center">
-  <img src="https://github.com/shadesofdeath/Twindows/raw/main/assets/twindows.png" alt="Twindows Logo" width="200">
+  <img src="https://github.com/shadesofdeath/Twindows/raw/main/assets/logo.png" alt="Twindows Logo" width="200">
   <br>
-  <h2>Ultimate Windows Optimization Suite</h2>
+  <h2>Ultimate Windows 11 Optimization Suite</h2>
   
   [![Stars](https://img.shields.io/github/stars/shadesofdeath/Twindows?style=for-the-badge&color=yellow)](https://github.com/shadesofdeath/Twindows/stargazers)
   [![License](https://img.shields.io/github/license/shadesofdeath/Twindows?style=for-the-badge&color=blue)](https://github.com/shadesofdeath/Twindows/blob/main/LICENSE)
   [![Release](https://img.shields.io/github/v/release/shadesofdeath/Twindows?style=for-the-badge&color=green)](https://github.com/shadesofdeath/Twindows/releases)
 </div>
 
-## ✨ One-Click PowerShell Installation
+## ✨ One-Click Portable Launcher
 
-Run the following command in PowerShell to instantly download and run Twindows without any manual steps:
+Run Twindows instantly with zero installation! Just paste this command in PowerShell:
 
 ```powershell
 iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/shadesofdeath/Twindows/main/install.ps1'))
 ```
 
-Or even shorter with curl:
+Or with curl (Windows 10/11):
 
 ```powershell
 curl -s https://raw.githubusercontent.com/shadesofdeath/Twindows/main/install.ps1 | iex
 ```
+
+💨 **Completely Portable**: Runs from memory and cleans up automatically when closed - leaves zero traces behind!
 
 ## 🌟 What is Twindows?
 
@@ -47,15 +49,16 @@ Identify and remove unnecessary pre-installed applications that slow down your s
 
 ## 🌈 Key Highlights
 
+- **Zero Installation**: Run directly from memory with no setup required
+- **Self-Cleaning**: Automatically removes all temporary files when closed
 - **Elegant Interface**: Stunning modern UI with support for both light and dark themes
 - **Multi-Language**: Full localization in 7 languages with automatic detection
-- **Smart Profiles**: Save and load optimization profiles for different use cases
-- **Admin Mode**: Seamless privilege elevation for system-level modifications
+- **Admin Mode**: Seamlessly elevates privileges when needed for system modifications
 - **Registry Safeguards**: Automatic backups before making changes ensure system stability
 - **Real-time Monitoring**: Track performance improvements as you apply optimizations
 
 <div align="center">
-  <img src="https://github.com/shadesofdeath/Twindows/raw/main/assets/screenshot.png" alt="Twindows Screenshot" width="800">
+  <img src="https://github.com/shadesofdeath/Twindows/raw/main/assets/screenshot1.png" alt="Twindows Screenshot" width="800">
 </div>
 
 ## 💡 Why Twindows?
@@ -64,10 +67,11 @@ Twindows stands apart from other optimization tools with its thoughtful design, 
 
 ## 🚀 Getting Started
 
-1. **Install** using the one-click PowerShell command above
+1. **Launch** using the one-click PowerShell command above
 2. **Explore** the intuitive interface organized by optimization category
 3. **Apply** tweaks with confidence knowing they can be easily reverted
 4. **Enjoy** a faster, more private, and personalized Windows experience
+5. **Close** when finished - Twindows automatically cleans up after itself!
 
 ## ❤️ Support Development
 

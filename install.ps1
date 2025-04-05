@@ -4,6 +4,14 @@
 # Created by Berkay AY (shadesofdeath)
 # https://github.com/shadesofdeath/Twindows
 
+# Display banner
+Write-Host "
+---------------------------------------------
+             TWINDOWS LAUNCHER             
+   Ultimate Windows 11 Optimization Suite   
+---------------------------------------------
+" -ForegroundColor Cyan
+
 # Function definitions
 function Test-Admin {
     $currentUser = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -13,55 +21,47 @@ function Test-Admin {
 function Get-LatestRelease {
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $releases = "https://api.github.com/repos/shadesofdeath/Twindows/releases/latest"
-    $tag = (Invoke-WebRequest $releases -UseBasicParsing | ConvertFrom-Json).tag_name
-    $download = "https://github.com/shadesofdeath/Twindows/releases/download/$tag/Twindows.zip"
-    return $download
+    try {
+        $tag = (Invoke-WebRequest $releases -UseBasicParsing | ConvertFrom-Json).tag_name
+        $download = "https://github.com/shadesofdeath/Twindows/releases/download/$tag/Twindows.zip"
+        return $download
+    }
+    catch {
+        # Fallback to direct download if API fails
+        return "https://github.com/shadesofdeath/Twindows/releases/latest/download/Twindows.zip"
+    }
 }
 
-# Display banner
-Write-Host "
----------------------------------------------
-             TWINDOWS INSTALLER             
-   Ultimate Windows 11 Optimization Suite   
----------------------------------------------
-" -ForegroundColor Cyan
-
-# Check if running as admin
+# Check if running as admin and elevate if needed
 if (-not (Test-Admin)) {
     Write-Host "Twindows requires administrator privileges." -ForegroundColor Yellow
     Write-Host "Requesting elevation..." -ForegroundColor Yellow
     
+    # Save script to temp file to execute as admin
+    $tempScript = [System.IO.Path]::GetTempFileName() + ".ps1"
+    $scriptContent = @'
+    # Twindows temporary launcher
+    Write-Host "Running with administrator privileges..." -ForegroundColor Green
+    iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/shadesofdeath/Twindows/main/install.ps1'))
+'@
+    Set-Content -Path $tempScript -Value $scriptContent
+    
     # Relaunch as admin
-    Start-Process PowerShell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+    Start-Process PowerShell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$tempScript`"" -Verb RunAs
     exit
 }
 
-# Ask where to install
-Write-Host "Where would you like to install Twindows?" -ForegroundColor Green
-Write-Host "1) Program Files (recommended)" -ForegroundColor White
-Write-Host "2) Desktop" -ForegroundColor White
-Write-Host "3) Custom location" -ForegroundColor White
-$installChoice = Read-Host "Enter your choice (1-3)"
+# Create a random temporary directory for maximum portability
+$randomId = [System.Guid]::NewGuid().ToString().Substring(0, 8)
+$installPath = "$env:TEMP\Twindows_$randomId"
 
-switch ($installChoice) {
-    "1" { $installPath = "$env:ProgramFiles\Twindows" }
-    "2" { $installPath = "$env:USERPROFILE\Desktop\Twindows" }
-    "3" { 
-        $customPath = Read-Host "Enter the full path where you want to install Twindows"
-        $installPath = $customPath
-    }
-    default { $installPath = "$env:ProgramFiles\Twindows" }
-}
-
-# Create directory if it doesn't exist
-if (-not (Test-Path -Path $installPath)) {
-    New-Item -ItemType Directory -Path $installPath -Force | Out-Null
-}
+# Create directory
+New-Item -ItemType Directory -Path $installPath -Force | Out-Null
 
 # Download the latest release
 Write-Host "Downloading Twindows latest version..." -ForegroundColor Cyan
 $downloadUrl = Get-LatestRelease
-$zipPath = "$env:TEMP\Twindows.zip"
+$zipPath = "$installPath\Twindows.zip"
 
 try {
     Invoke-WebRequest -Uri $downloadUrl -OutFile $zipPath -UseBasicParsing
@@ -77,33 +77,55 @@ catch {
 Write-Host "Extracting files..." -ForegroundColor Cyan
 Expand-Archive -Path $zipPath -DestinationPath $installPath -Force
 
-# Cleanup
+# Cleanup zip file
 Remove-Item $zipPath -Force
 
-# Create desktop shortcut
-$WshShell = New-Object -ComObject WScript.Shell
-$Shortcut = $WshShell.CreateShortcut("$env:USERPROFILE\Desktop\Twindows.lnk")
-$Shortcut.TargetPath = "$installPath\Twindows.exe"
-$Shortcut.Save()
+# Find the executable
+$exePath = Get-ChildItem -Path $installPath -Filter "Twindows.exe" -Recurse | Select-Object -First 1 -ExpandProperty FullName
 
-Write-Host "Installation completed successfully!" -ForegroundColor Green
-Write-Host "Twindows has been installed to: $installPath" -ForegroundColor White
-Write-Host "A shortcut has been created on your desktop." -ForegroundColor White
-
-# Ask to run the application
-$runNow = Read-Host "Would you like to run Twindows now? (Y/N)"
-if ($runNow -eq "Y" -or $runNow -eq "y") {
-    Write-Host "Launching Twindows..." -ForegroundColor Cyan
-    Start-Process -FilePath "$installPath\Twindows.exe"
+if (-not $exePath) {
+    Write-Host "Could not find Twindows.exe in the extracted files." -ForegroundColor Red
+    Write-Host "Please report this issue on GitHub: https://github.com/shadesofdeath/Twindows/issues" -ForegroundColor Yellow
+    pause
+    exit
 }
 
-Write-Host "Thank you for installing Twindows!" -ForegroundColor Cyan
-Write-Host "If you like Twindows, please consider giving us a star on GitHub:" -ForegroundColor White
-Write-Host "https://github.com/shadesofdeath/Twindows" -ForegroundColor Cyan
+# Run the application
+Write-Host "Launching Twindows..." -ForegroundColor Cyan
+try {
+    # Start process and get the process ID
+    $process = Start-Process -FilePath $exePath -PassThru
+    
+    # Show running message
+    Write-Host "Twindows is now running. Enjoy optimizing your Windows system!" -ForegroundColor Green
+    
+    # Set up automatic cleanup when the process exits
+    $cleanupScript = {
+        param($tempDir, $pid)
+        # Wait for the process to exit
+        try {
+            Wait-Process -Id $pid -ErrorAction SilentlyContinue
+        } catch {
+            # Process may have already exited
+        }
+        # Allow some time for file handles to be released
+        Start-Sleep -Seconds 2
+        # Clean up the temp directory
+        if (Test-Path $tempDir) {
+            Remove-Item -Path $tempDir -Recurse -Force -ErrorAction SilentlyContinue
+        }
+    }
+    
+    # Start a background job to clean up when the application closes
+    Start-Job -ScriptBlock $cleanupScript -ArgumentList $installPath, $process.Id | Out-Null
+}
+catch {
+    Write-Host "Error launching Twindows: $_" -ForegroundColor Red
+    pause
+    # Clean up if application failed to start
+    Remove-Item -Path $installPath -Recurse -Force -ErrorAction SilentlyContinue
+    exit
+}
 
-# Countdown before closing
-Write-Host "`nThis window will close in:" -ForegroundColor Yellow
-5..1 | ForEach-Object {
-    Write-Host "$_..." -ForegroundColor Yellow
-    Start-Sleep -Seconds 1
-} 
+Write-Host "The launcher will close automatically in 3 seconds..." -ForegroundColor Yellow
+Start-Sleep -Seconds 3 
