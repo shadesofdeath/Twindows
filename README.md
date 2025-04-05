@@ -3,7 +3,7 @@
 <div align="center">
   <img src="https://github.com/shadesofdeath/Twindows/raw/main/assets/logo.png" alt="Twindows Logo" width="200">
   <br>
-  <h2>Ultimate Windows 11 Optimization Suite</h2>
+  <h2>Ultimate Windows Optimization Suite</h2>
   
   [![Stars](https://img.shields.io/github/stars/shadesofdeath/Twindows?style=for-the-badge&color=yellow)](https://github.com/shadesofdeath/Twindows/stargazers)
   [![License](https://img.shields.io/github/license/shadesofdeath/Twindows?style=for-the-badge&color=blue)](https://github.com/shadesofdeath/Twindows/blob/main/LICENSE)
@@ -28,12 +28,12 @@ curl -s https://raw.githubusercontent.com/shadesofdeath/Twindows/main/install.ps
 
 ## 🌟 What is Twindows?
 
-Twindows is the premier Windows 11 optimization toolkit that transforms your operating system experience with just a few clicks. Built with performance, privacy, and customization in mind, this elegant application gives you complete control over your Windows environment.
+Twindows is the premier Windows optimization toolkit that transforms your operating system experience with just a few clicks. Built with performance, privacy, and customization in mind, this elegant application gives you complete control over your Windows environment.
 
 ## 🔥 Core Features
 
 ### ⚙️ Comprehensive System Optimization
-Enhance your Windows 11 experience with a suite of powerful tweaks, from system performance and privacy to appearance and security.
+Enhance your Windows experience with a suite of powerful tweaks, from system performance and privacy to appearance and security.
 
 ### 🛠️ Intelligent Optimization Engine
 Twindows intelligently analyzes your system and recommends optimal configurations based on your hardware profile and usage patterns.

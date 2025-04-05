@@ -20,15 +20,18 @@ function Test-Admin {
 
 function Get-LatestRelease {
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-    $releases = "https://api.github.com/repos/shadesofdeath/Twindows/releases/latest"
     try {
-        $tag = (Invoke-WebRequest $releases -UseBasicParsing | ConvertFrom-Json).tag_name
-        $download = "https://github.com/shadesofdeath/Twindows/releases/download/$tag/Twindows.zip"
-        return $download
+        # Try to get latest release tag from GitHub API
+        $apiUrl = "https://api.github.com/repos/shadesofdeath/Twindows/releases/latest"
+        $releaseInfo = Invoke-WebRequest -Uri $apiUrl -UseBasicParsing | ConvertFrom-Json
+        $tag = $releaseInfo.tag_name
+        Write-Host "Found latest version: $tag" -ForegroundColor Green
+        return "https://github.com/shadesofdeath/Twindows/releases/download/$tag/Twindows.exe"
     }
     catch {
-        # Fallback to direct download if API fails
-        return "https://github.com/shadesofdeath/Twindows/releases/latest/download/Twindows.zip"
+        # If API fails, try direct download link
+        Write-Host "Could not determine latest version, using direct download link" -ForegroundColor Yellow
+        return "https://github.com/shadesofdeath/Twindows/releases/latest/download/Twindows.exe"
     }
 }
 
@@ -61,38 +64,43 @@ New-Item -ItemType Directory -Path $installPath -Force | Out-Null
 # Download the latest release
 Write-Host "Downloading Twindows latest version..." -ForegroundColor Cyan
 $downloadUrl = Get-LatestRelease
-$zipPath = "$installPath\Twindows.zip"
+$exePath = "$installPath\Twindows.exe"
 
 try {
-    Invoke-WebRequest -Uri $downloadUrl -OutFile $zipPath -UseBasicParsing
+    Write-Host "Downloading from: $downloadUrl" -ForegroundColor DarkGray
+    Invoke-WebRequest -Uri $downloadUrl -OutFile $exePath -UseBasicParsing
+    
+    # Check if file was actually downloaded
+    if (-not (Test-Path -Path $exePath) -or (Get-Item -Path $exePath).Length -eq 0) {
+        throw "Downloaded file is empty or doesn't exist"
+    }
 }
 catch {
     Write-Host "Failed to download Twindows. Please check your internet connection and try again." -ForegroundColor Red
     Write-Host "Error: $_" -ForegroundColor Red
-    pause
-    exit
-}
-
-# Extract the ZIP file
-Write-Host "Extracting files..." -ForegroundColor Cyan
-Expand-Archive -Path $zipPath -DestinationPath $installPath -Force
-
-# Cleanup zip file
-Remove-Item $zipPath -Force
-
-# Find the executable
-$exePath = Get-ChildItem -Path $installPath -Filter "Twindows.exe" -Recurse | Select-Object -First 1 -ExpandProperty FullName
-
-if (-not $exePath) {
-    Write-Host "Could not find Twindows.exe in the extracted files." -ForegroundColor Red
-    Write-Host "Please report this issue on GitHub: https://github.com/shadesofdeath/Twindows/issues" -ForegroundColor Yellow
-    pause
-    exit
+    Write-Host "URL: $downloadUrl" -ForegroundColor Red
+    
+    # Try fallback direct download
+    try {
+        $fallbackUrl = "https://github.com/shadesofdeath/Twindows/releases/download/v1.0.0.0/Twindows.exe"
+        Write-Host "Trying fallback URL: $fallbackUrl" -ForegroundColor Yellow
+        Invoke-WebRequest -Uri $fallbackUrl -OutFile $exePath -UseBasicParsing
+    }
+    catch {
+        Write-Host "Fallback download also failed." -ForegroundColor Red
+        pause
+        exit
+    }
 }
 
 # Run the application
 Write-Host "Launching Twindows..." -ForegroundColor Cyan
 try {
+    # Check if file exists and is valid
+    if (-not (Test-Path -Path $exePath) -or (Get-Item -Path $exePath).Length -eq 0) {
+        throw "Executable file not found or empty"
+    }
+    
     # Start process and get the process ID
     $process = Start-Process -FilePath $exePath -PassThru
     
