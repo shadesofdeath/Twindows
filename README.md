@@ -1,0 +1,95 @@
+# <div align="center">🚀 TWINDOWS 🚀</div>
+
+<div align="center">
+  <img src="https://github.com/shadesofdeath/Twindows/raw/main/assets/twindows.png" alt="Twindows Logo" width="200">
+  <br>
+  <h2>Ultimate Windows Optimization Suite</h2>
+  
+  [![Stars](https://img.shields.io/github/stars/shadesofdeath/Twindows?style=for-the-badge&color=yellow)](https://github.com/shadesofdeath/Twindows/stargazers)
+  [![License](https://img.shields.io/github/license/shadesofdeath/Twindows?style=for-the-badge&color=blue)](https://github.com/shadesofdeath/Twindows/blob/main/LICENSE)
+  [![Release](https://img.shields.io/github/v/release/shadesofdeath/Twindows?style=for-the-badge&color=green)](https://github.com/shadesofdeath/Twindows/releases)
+</div>
+
+## ✨ One-Click PowerShell Installation
+
+Run the following command in PowerShell to instantly download and run Twindows without any manual steps:
+
+```powershell
+iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/shadesofdeath/Twindows/main/install.ps1'))
+```
+
+Or even shorter with curl:
+
+```powershell
+curl -s https://raw.githubusercontent.com/shadesofdeath/Twindows/main/install.ps1 | iex
+```
+
+## 🌟 What is Twindows?
+
+Twindows is the premier Windows 11 optimization toolkit that transforms your operating system experience with just a few clicks. Built with performance, privacy, and customization in mind, this elegant application gives you complete control over your Windows environment.
+
+## 🔥 Core Features
+
+### ⚙️ Comprehensive System Optimization
+Enhance your Windows 11 experience with a suite of powerful tweaks, from system performance and privacy to appearance and security.
+
+### 🛠️ Intelligent Optimization Engine
+Twindows intelligently analyzes your system and recommends optimal configurations based on your hardware profile and usage patterns.
+
+### 🔒 Advanced Privacy Protection
+Take back control of your data with enterprise-grade privacy features that prevent telemetry, tracking, and unwanted data collection.
+
+### 🎨 Complete Customization
+Personalize every aspect of your Windows experience with extensive customization options for appearance, behavior, and functionality.
+
+### 🚀 Bloatware Removal
+Identify and remove unnecessary pre-installed applications that slow down your system and consume valuable resources.
+
+## 🌈 Key Highlights
+
+- **Elegant Interface**: Stunning modern UI with support for both light and dark themes
+- **Multi-Language**: Full localization in 7 languages with automatic detection
+- **Smart Profiles**: Save and load optimization profiles for different use cases
+- **Admin Mode**: Seamless privilege elevation for system-level modifications
+- **Registry Safeguards**: Automatic backups before making changes ensure system stability
+- **Real-time Monitoring**: Track performance improvements as you apply optimizations
+
+<div align="center">
+  <img src="https://github.com/shadesofdeath/Twindows/raw/main/assets/screenshot.png" alt="Twindows Screenshot" width="800">
+</div>
+
+## 💡 Why Twindows?
+
+Twindows stands apart from other optimization tools with its thoughtful design, comprehensive feature set, and commitment to user privacy. Every tweak is thoroughly tested and explained, giving you complete confidence in the changes you're making to your system.
+
+## 🚀 Getting Started
+
+1. **Install** using the one-click PowerShell command above
+2. **Explore** the intuitive interface organized by optimization category
+3. **Apply** tweaks with confidence knowing they can be easily reverted
+4. **Enjoy** a faster, more private, and personalized Windows experience
+
+## ❤️ Support Development
+
+If you find Twindows valuable, consider supporting continued development:
+
+<div align="center">
+  <a href="https://ko-fi.com/shadesofdeath">
+    <img src="https://cdn.ko-fi.com/cdn/kofi3.png?v=3" alt="Buy Me A Coffee" width="200">
+  </a>
+</div>
+
+## 📜 License
+
+Released under the [Unlicense](https://github.com/shadesofdeath/Twindows/blob/main/LICENSE) - use freely for any purpose!
+
+---
+
+<div align="center">
+  
+  **[⭐ Star on GitHub](https://github.com/shadesofdeath/Twindows)** | 
+  **[🔄 Latest Release](https://github.com/shadesofdeath/Twindows/releases)** | 
+  **[🌐 Report Issues](https://github.com/shadesofdeath/Twindows/issues)**
+  
+  Created with ❤️ by [Berkay AY](https://github.com/shadesofdeath)
+</div> 
