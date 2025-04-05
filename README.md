@@ -1,7 +1,7 @@
 # <div align="center">🚀 TWINDOWS 🚀</div>
 
 <div align="center">
-  <img src="https://github.com/shadesofdeath/Twindows/raw/main/assets/logo.png" alt="Twindows Logo" width="200">
+  <img src="https://github.com/shadesofdeath/Twindows/raw/main/assets/twindows.png" alt="Twindows Logo" width="200">
   <br>
   <h2>Ultimate Windows Optimization Suite</h2>
   
